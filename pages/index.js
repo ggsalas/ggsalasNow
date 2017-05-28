@@ -1,30 +1,67 @@
+import React from 'react'
 import Link from 'next/link'
-import fetch from 'isomorphic-unfetch'
 
-const Index = (props) => (
-  <div>
-    <p>Hola</p>
-    <ul>
-      {props.data.posts.map((post) => (
-        <li key={post.ID}>
-            <a>{post.title}</a>
-        </li>
-      ))}
-    </ul>
-  </div>
-)
+import { getPosts } from '../Api'
+const SITE = 'ggsalas.com'
 
+class Index extends React.Component {
 
-Index.getInitialProps = async function() {
-  const SITE = 'ggsalas.com'
-  const res = await fetch(`https://public-api.wordpress.com/rest/v1.1/sites/${SITE}/posts/`)
-  const data = await res.json()
+  static async getInitialProps() {
+    return await getPosts( SITE )
+  }
 
-  console.log(`Show data fetched. Count: ${data.length}`)
+  constructor( props ) {
+    super( props )
+    this.state = { 
+      site: SITE,
+      data: this.props.data
+    }
 
-  return {
-    data: data
+    this.onSiteChange = this.onSiteChange.bind(this)
+  }
+
+  onSiteChange( event ) {
+    const site = event.target.value
+
+    getPosts( site )
+    .then((response) => {
+      if(response) {
+        this.setState({ 
+          site,
+          data: response.data
+        })
+      } else {
+        this.setState({ 
+          site, 
+          data: {},
+          error: 'no se encuentra el blog'
+        })
+      }
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <span>Ver publicaciones del Blog: </span>
+        <input 
+          name = 'site'
+          defaultValue = { this.SITE }
+          onChange = { this.onSiteChange }
+        />
+        <ul>
+          { this.state.data && this.state.data.posts
+            ? (this.state.data.posts.map(( post ) => (
+                <li key={post.ID}>
+                  <a href={post.URL}>{post.title}</a>
+                </li>
+              )))
+            : <p>{this.state.error}</p>
+          }
+        </ul>
+      </div>
+    )
   }
 }
 
- export default Index
+export default Index
