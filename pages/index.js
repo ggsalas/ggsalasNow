@@ -46,7 +46,7 @@ class Index extends React.Component {
         <input 
           name = 'site'
           defaultValue = { SITE }
-          onChange = { this.onSiteChange }
+          onChange = { e => e.target.value.length > 5 ? this.onSiteChange(e) : null}
         />
         <ul>
           { this.state.data && this.state.data.posts
