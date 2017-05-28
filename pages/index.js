@@ -6,6 +6,7 @@ const SITE = 'ggsalas.com'
 
 class Index extends React.Component {
 
+  // Get data and render on the server
   static async getInitialProps() {
     return await getPosts( SITE )
   }
@@ -16,11 +17,9 @@ class Index extends React.Component {
       site: SITE,
       data: this.props.data
     }
-
-    this.onSiteChange = this.onSiteChange.bind(this)
   }
 
-  onSiteChange( event ) {
+  onSiteChange = ( event ) => {
     const site = event.target.value
 
     getPosts( site )
@@ -46,7 +45,7 @@ class Index extends React.Component {
         <span>Ver publicaciones del Blog: </span>
         <input 
           name = 'site'
-          defaultValue = { this.SITE }
+          defaultValue = { SITE }
           onChange = { this.onSiteChange }
         />
         <ul>
