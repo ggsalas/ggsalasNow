@@ -1,17 +1,20 @@
 import React from 'react'
+import { getPost } from '../Api'
 
 class Post extends React.Component {
 
   // Get data and render on the server
-  // static async getInitialProps() {
-  //   return await getPosts( SITE )
-  // }
+  static async getInitialProps({ pathname, query }) {
+    return await getPost( query.site, query.id )
+  // return { site: query.site, id: query.id }
+  }
 
   render() {
     return (
       <div>
-        <div onClick={ this.props.close }>[ X ]</div>
-          <div dangerouslySetInnerHTML={{ __html: this.props.post.content }}>
+        <h2>{this.props.post.title}</h2>
+        <div dangerouslySetInnerHTML={{ __html: this.props.post.content}}>
+
         </div>
       </div>
     )

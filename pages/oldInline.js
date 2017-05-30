@@ -1,12 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import Router from 'next/router'
 
-import Modal from '../components/modal'
-import { getPosts, getPost } from '../Api'
+import Post from './post'
+import { getPosts } from '../Api'
 const SITE = 'techcrunch.com'
 
-class Index extends React.Component {
+class inline extends React.Component {
 
   // Get data and render on the server
   static async getInitialProps() {
@@ -41,19 +40,12 @@ class Index extends React.Component {
     })
   }
 
-  onGoPost (e, site, id ) {
-    e.preventDefault()
-    Router.push(`/?postId=${id}`, `/post?site=${site}&id=${id}`)
-    getPost( site, id )
-    .then(( response ) => {
-      this.setState({
-        post: response.post,
-      })
-    })
+  onClickPost = ( post ) => {
+    this.setState({ post: post })
   }
 
-  dismissModal () {
-    Router.push('/')
+  onClosePost = () => {
+    this.setState({ post: null })
   }
 
   render() {
@@ -65,20 +57,16 @@ class Index extends React.Component {
           defaultValue = { SITE }
           onChange = { e => e.target.value.length > 5 ? this.onSiteChange( e ) : null } 
         />
-        {
-          this.props.url.query && this.props.url.query.postId &&
-            <Modal
-              id = { this.props.url.query.postId }
-              post = { this.state.post }
-              onDismiss = { () => this.dismissModal() }
-            />
-        }
-        { 
-          this.state.data && this.state.data.posts
+        { this.state.data && this.state.data.posts
           ? ( <ul>
                 { this.state.data.posts.map(( post ) => (
                     <li key={post.ID}>
-                    <span onClick={ e => this.onGoPost( e, SITE, post.ID ) }>{ post.title }</span>
+                      <span onClick={ () => this.onClickPost( post ) }>{ post.title }</span>
+                      {
+                        this.state.post && this.state.post.ID == post.ID
+                          ? <Post post={ this.state.post } close={ this.onClosePost }/>
+                          : null
+                      }
                     </li>
                 )) }
             </ul> )
@@ -89,5 +77,4 @@ class Index extends React.Component {
   }
 }
 
-export default Index
-
+export default Inline
