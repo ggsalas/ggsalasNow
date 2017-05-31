@@ -5,7 +5,7 @@ import { getPosts } from '../Api'
 
 class Modal extends React.Component {
   dismiss (e) {
-    if (this._shim === e.target || this._photoWrap === e.target) {
+    if (this._background === e.target || this._container === e.target) {
       if (this.props.onDismiss) {
         this.props.onDismiss()
       }
@@ -14,30 +14,35 @@ class Modal extends React.Component {
 
   render () {
     return (
-      <div ref={el => (this._shim = el)} className='shim' onClick={(e) => this.dismiss(e)}>
-        <div ref={el => (this._photoWrap = el)} className='photo'>
+      <div ref={el => (this._background = el)} className='background-modal' onClick={(e) => this.dismiss(e)}>
+        <div ref={el => (this._container = el)} className='container'>
           <Post 
             postId = { this.props.id }  
             post = { this.props.post }
           />
         </div>
         <style jsx>{`
-          .shim {
+          .background-modal {
             position: fixed;
-            background: rgba(0,0,0,.65);
-            left: 0;
-            right: 0;
+            overflow: scroll;
             top: 0;
+            left: 0;
             bottom: 0;
-            margin: auto;
-          }
-
-          .photo {
-            position: absolute;
-            top: 50%;
             width: 100%;
-            margin-top: -250px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0,0,0,.65);
+          }
+          .container {
+            margin: 60px 40px;
+            padding: 20px;
             background: white;
+          }
+          .container :global(img) {
+            max-width: 100%;
+          }
+          .container :global(iframe) {
+            width: 100%;
           }
         `}</style>
       </div>

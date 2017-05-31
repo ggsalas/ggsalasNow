@@ -2,8 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 
-import Modal from '../components/modal'
 import { getPosts, getPost } from '../Api'
+import Modal from '../components/modal'
 const SITE = 'techcrunch.com'
 
 class Index extends React.Component {
@@ -58,9 +58,10 @@ class Index extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='index'>
         <span>Ver publicaciones del Blog: </span>
         <input 
+          className='siteSearch'
           name = 'site'
           defaultValue = { SITE }
           onChange = { e => e.target.value.length > 5 ? this.onSiteChange( e ) : null } 
@@ -75,10 +76,10 @@ class Index extends React.Component {
         }
         { 
           this.state.data && this.state.data.posts
-          ? ( <ul>
+          ? ( <ul className='postList'>
                 { this.state.data.posts.map(( post ) => (
-                    <li key={post.ID}>
-                    <span onClick={ e => this.onGoPost( e, SITE, post.ID ) }>{ post.title }</span>
+                    <li className='postItem'  key={post.ID}>
+                    <span onClick={ e => this.onGoPost( e, this.state.site, post.ID ) }>{ post.title }</span>
                     </li>
                 )) }
             </ul> )

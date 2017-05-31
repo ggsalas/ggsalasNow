@@ -1,7 +1,9 @@
 import fetch from 'isomorphic-unfetch'
 
+const WP_PUBLIC = 'https://public-api.wordpress.com/rest/v1.1/sites/'
+
 export function getPosts( site ) {
-  const get = fetch(`https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/`)
+  const get = fetch(`${WP_PUBLIC}${site}/posts/`)
   .then( status )
   .then( json )
   .then( data => { return ({data}) } )
@@ -13,7 +15,7 @@ export function getPosts( site ) {
 }
 
 export function getPost( site, postId ) {
-  const get = fetch(`https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/${postId}`)
+  const get = fetch(`${WP_PUBLIC}${site}/posts/${postId}`)
   .then( status )
   .then( json )
   .then( data => { return ({post: data}) } )
