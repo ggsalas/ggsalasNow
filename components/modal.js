@@ -5,8 +5,8 @@ import { getPosts } from '../Api'
 
 class Modal extends React.Component {
   dismiss (e) {
-    if (this._background === e.target || this._container === e.target) {
-      if (this.props.onDismiss) {
+    if ( this._background === e.target || this._container === e.target ) {
+      if ( this.props.onDismiss ) {
         this.props.onDismiss()
       }
     }
@@ -14,8 +14,8 @@ class Modal extends React.Component {
 
   render () {
     return (
-      <div ref={el => (this._background = el)} className='background-modal' onClick={(e) => this.dismiss(e)}>
-        <div ref={el => (this._container = el)} className='container'>
+      <div ref={ el => (this._background = el) } className='background-modal' onClick={ (e) => this.dismiss(e) }>
+        <div ref={ el => (this._container = el) } className='container'>
           <Post 
             postId = { this.props.id }  
             post = { this.props.post }
@@ -48,7 +48,6 @@ class Modal extends React.Component {
       </div>
     )
   }
-
 }
 
 export default Modal
