@@ -19,6 +19,7 @@ class Modal extends React.Component {
           <Post 
             postId = { this.props.id }  
             post = { this.props.post }
+            containerRemove = { true }
           />
         </div>
         <style jsx>{`

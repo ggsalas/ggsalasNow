@@ -11,7 +11,7 @@ class Post extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container remove={this.props.containerRemove}>
         <div className='post' >
           <h2>{this.props.post.title}</h2>
           <div className='postContent' dangerouslySetInnerHTML={{ __html: this.props.post.content}}></div>

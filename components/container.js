@@ -4,7 +4,7 @@ export default function Container(props) {
     return (
       <div>
         {
-          props.display == undefined 
+          props.remove === true
             ? <div>{ props.children }</div>
             : (
                 <div className='container'>
