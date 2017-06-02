@@ -1,4 +1,5 @@
 import React from 'react'
+import Container from '../components/container'
 import { getPost } from '../Api'
 
 class Post extends React.Component {
@@ -10,10 +11,24 @@ class Post extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>{this.props.post.title}</h2>
-        <div dangerouslySetInnerHTML={{ __html: this.props.post.content}}></div>
-      </div>
+      <Container>
+        <div className='post' >
+          <h2>{this.props.post.title}</h2>
+          <div className='postContent' dangerouslySetInnerHTML={{ __html: this.props.post.content}}></div>
+
+          <style jsx>{`
+            .post {
+              margin: 20px;
+            }
+            .postContent :global(img) {
+              max-width: 100%;
+            }
+            .postContent :global(iframe) {
+              max-width: 100%;
+            }
+          `}</style>
+        </div>
+      </Container>
     )
   }
 }

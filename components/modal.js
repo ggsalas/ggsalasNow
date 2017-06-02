@@ -35,14 +35,7 @@ class Modal extends React.Component {
           }
           .container {
             margin: 60px 40px;
-            padding: 20px;
             background: white;
-          }
-          .container :global(img) {
-            max-width: 100%;
-          }
-          .container :global(iframe) {
-            width: 100%;
           }
         `}</style>
       </div>
