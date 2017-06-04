@@ -8,6 +8,7 @@ export default function Container(props) {
             ? <div>{ props.children }</div>
             : (
                 <div className='container'>
+                  <section className='header'><h1 className='headerTitle'>Wordpress Blog Reader</h1></section>
                   { props.children }
                 </div>
               )
@@ -23,6 +24,12 @@ export default function Container(props) {
 
           .container {
             border-top: 8px solid #333;
+          }
+          .headerTitle {
+            text-align: center;
+            font-size: 30px;
+            margin: 20px 20px 30px 20px;
+            color: #333;
           }
         `}</style>
       </div>
