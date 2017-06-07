@@ -25,36 +25,35 @@ class Index extends React.Component {
   onSiteChange = ( event ) => {
     const site = event.target.value
 
-    getPosts( site )
-    .then(( response ) => {
-      if( response ) {
-        this.setState({ 
-          site,
-          data: response.data
-        })
-      } else {
-        this.setState({ 
-          site, 
-          data: {},
-          error: 'no se encuentra el blog'
-        })
-      }
-    })
+    if( event.target.value.length > 5 ) {
+      getPosts( site )
+      .then(( response ) => {
+        if( response ) {
+          this.setState({ 
+            site,
+            data: response.data
+          })
+        } else {
+          this.setState({ 
+            site, 
+            data: {},
+            error: 'no se encuentra el blog'
+          })
+        }
+      })
+    }
   }
 
-  onGoPost (e, site, id ) {
+  onGoPost = (e, site, post ) => {
     e.preventDefault()
-    Router.push(`/?postId=${id}`, `/post?site=${site}&id=${id}`)
-    getPost( site, id )
-    .then(( response ) => {
+    Router.push(`/?postId=${post.ID}`, `/post?site=${site}&id=${post.ID}`, { shallow: true })
       this.setState({
-        post: response.post,
+        post
       })
-    })
   }
 
   dismissModal () {
-    Router.push('/')
+    Router.push('/', '/', { shallow: true })
   }
 
   render() {
@@ -67,7 +66,7 @@ class Index extends React.Component {
               className='siteSearch'
               name = 'site'
               defaultValue = { SITE }
-              onChange = { e => e.target.value.length > 5 ? this.onSiteChange( e ) : null } 
+              onChange = { this.onSiteChange } 
             />
           </section>
           {
@@ -75,18 +74,22 @@ class Index extends React.Component {
               <Modal
                 id = { this.props.url.query.postId }
                 post = { this.state.post }
-                onDismiss = { () => this.dismissModal() }
+                onDismiss = { this.dismissModal }
               />
           }
           { 
             this.state.data && this.state.data.posts
-            ? ( <ul className='postList'>
-                  { this.state.data.posts.map(( post ) => (
-                      <li className='postItem'  key={post.ID} onClick={ e => this.onGoPost( e, this.state.site, post.ID ) }>
+            ? ( 
+                <ul className='postList'>
+                  { 
+                    this.state.data.posts.map(( post ) => (
+                      <li className='postItem'  key={post.ID} onClick={ e => this.onGoPost( e, this.state.site, post ) }>
                         <span className='postTitle' dangerouslySetInnerHTML={{__html: post.title}}></span>
+                        <span className='postExcerpt' dangerouslySetInnerHTML={{__html: post.excerpt}}></span>
                       </li>
-                  )) }
-              </ul>
+                    )) 
+                  }
+                </ul>
               )
             : <p>{ this.state.error }</p>
           }
@@ -125,6 +128,9 @@ class Index extends React.Component {
             .postItem:hover {
               color: #000;
               border-color: #000;
+            }
+            .postExcerpt {
+              font-size: .8em;
             }
           `}</style>
         </div>

@@ -13,7 +13,7 @@ class Post extends React.Component {
     return (
       <Container remove={this.props.containerRemove}>
         <div className='post' >
-          <h2>{this.props.post.title}</h2>
+          <h2 dangerouslySetInnerHTML={{ __html: this.props.post.title }}></h2>
           <div className='postContent' dangerouslySetInnerHTML={{ __html: this.props.post.content}}></div>
 
           <style jsx>{`
