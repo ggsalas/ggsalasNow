@@ -18,8 +18,14 @@ class Index extends React.Component {
     super( props )
     this.state = { 
       site: SITE,
-      data: this.props.data
+      data: {
+        found: this.props.data.found,
+        posts: this.props.data.posts
+      },
+      page: 1
     }
+
+    this.postsPerPage = 20
   }
 
   onSiteChange = ( event ) => {
@@ -44,9 +50,9 @@ class Index extends React.Component {
     }
   }
 
-  onGoPost = (e, site, post ) => {
+  onGoPost = ( e, post ) => {
     e.preventDefault()
-    Router.push(`/?postId=${post.ID}`, `/post?site=${site}&id=${post.ID}`, { shallow: true })
+    Router.push(`/?postId=${post.ID}`, `/post?site=${this.state.site}&id=${post.ID}`, { shallow: true })
       this.setState({
         post
       })
@@ -54,6 +60,26 @@ class Index extends React.Component {
 
   dismissModal () {
     Router.push('/', '/', { shallow: true })
+  }
+
+  onLoadMore = () => {
+    const nextPage = this.state.page + 1
+
+    getPosts( this.state.site, this.postsPerPage, nextPage )
+    .then(( response ) => {
+      if( response ) {
+        this.setState({ 
+          data: {
+            found: this.state.data.found,
+            posts: [
+              ...this.state.data.posts,
+              ...response.data.posts
+            ],
+          },
+          page: nextPage
+        })
+      }
+    })
   }
 
   render() {
@@ -83,7 +109,7 @@ class Index extends React.Component {
                 <ul className='postList'>
                   { 
                     this.state.data.posts.map(( post ) => (
-                      <li className='postItem'  key={post.ID} onClick={ e => this.onGoPost( e, this.state.site, post ) }>
+                      <li className='postItem'  key={post.ID} onClick={ e => this.onGoPost( e, post ) }>
                         <span className='postTitle' dangerouslySetInnerHTML={{__html: post.title}}></span>
                         <span className='postExcerpt' dangerouslySetInnerHTML={{__html: post.excerpt}}></span>
                       </li>
@@ -93,6 +119,12 @@ class Index extends React.Component {
               )
             : <p>{ this.state.error }</p>
           }
+          {
+            this.state.page < this.state.data.found / this.postsPerPage
+              ? <div onClick={ this.onLoadMore } className='loadMore'>Load More</div>
+              : null
+          }
+              
           <style jsx>{`
             .index {
               margin: 20px;
@@ -131,6 +163,19 @@ class Index extends React.Component {
             }
             .postExcerpt {
               font-size: .8em;
+            }
+            .loadMore {
+              cursor: pointer;
+              display: block;
+              margin: 20px auto;
+              border: 4px solid #eee;
+              color: #555;
+              padding: 20px;
+              text-align: center;
+            }
+            .loadMore:hover {
+              color: #000;
+              border-color: #000;
             }
           `}</style>
         </div>
