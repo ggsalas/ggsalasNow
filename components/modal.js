@@ -4,22 +4,26 @@ import Post from '../pages/post'
 import { getPosts } from '../Api'
 
 class Modal extends React.Component {
-  dismiss (e) {
-    if ( this._background === e.target || this._container === e.target ) {
-      if ( this.props.onDismiss ) {
+  dismiss(e) {
+    if (this._background === e.target || this._container === e.target) {
+      if (this.props.onDismiss) {
         this.props.onDismiss()
       }
     }
   }
 
-  render () {
+  render() {
     return (
-      <div ref={ el => (this._background = el) } className='background-modal' onClick={ (e) => this.dismiss(e) }>
-        <div ref={ el => (this._container = el) } className='container'>
-          <Post 
-            postId = { this.props.id }  
-            post = { this.props.post }
-            containerRemove = { true }
+      <div
+        ref={el => (this._background = el)}
+        className="background-modal"
+        onClick={e => this.dismiss(e)}
+      >
+        <div ref={el => (this._container = el)} className="container">
+          <Post
+            postId={this.props.id}
+            post={this.props.post}
+            containerRemove={true}
           />
         </div>
         <style jsx>{`
@@ -32,7 +36,7 @@ class Modal extends React.Component {
             width: 100%;
             display: flex;
             flex-direction: column;
-            background: rgba(0,0,0,.65);
+            background: rgba(0, 0, 0, 0.65);
           }
           .container {
             margin: 60px 40px;
@@ -45,4 +49,3 @@ class Modal extends React.Component {
 }
 
 export default Modal
-

@@ -3,18 +3,20 @@ import Container from '../components/container'
 import { getPost } from '../Api'
 
 class Post extends React.Component {
-
   // Get data and render on the server
   static async getInitialProps({ pathname, query }) {
-    return await getPost( query.site, query.id )
+    return await getPost(query.site, query.id)
   }
 
   render() {
     return (
       <Container remove={this.props.containerRemove}>
-        <div className='post' >
-          <h2 dangerouslySetInnerHTML={{ __html: this.props.post.title }}></h2>
-          <div className='postContent' dangerouslySetInnerHTML={{ __html: this.props.post.content}}></div>
+        <div className="post">
+          <h2 dangerouslySetInnerHTML={{ __html: this.props.post.title }} />
+          <div
+            className="postContent"
+            dangerouslySetInnerHTML={{ __html: this.props.post.content }}
+          />
 
           <style jsx>{`
             .post {
@@ -34,4 +36,3 @@ class Post extends React.Component {
 }
 
 export default Post
-
