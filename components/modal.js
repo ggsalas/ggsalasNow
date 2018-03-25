@@ -4,7 +4,7 @@ import Post from '../pages/post'
 import { getPosts } from '../Api'
 
 class Modal extends React.Component {
-  dismiss(e) {
+  dismiss = e => {
     if (this._background === e.target || this._container === e.target) {
       if (this.props.onDismiss) {
         this.props.onDismiss()
@@ -17,7 +17,7 @@ class Modal extends React.Component {
       <div
         ref={el => (this._background = el)}
         className="background-modal"
-        onClick={e => this.dismiss(e)}
+        onClick={this.dismiss}
       >
         <div ref={el => (this._container = el)} className="container">
           <Post

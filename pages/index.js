@@ -34,12 +34,10 @@ class Index extends React.Component {
       getPosts(site).then(response => {
         if (response) {
           this.setState({
-            site,
             data: response.data
           })
         } else {
           this.setState({
-            site,
             data: {},
             error: 'no se encuentra el blog'
           })
@@ -48,7 +46,7 @@ class Index extends React.Component {
     }
   }
 
-  onGoPost = (e, post) => {
+  onGoPost = post => e => {
     e.preventDefault()
     Router.push(
       `/?postId=${post.ID}`,
@@ -109,7 +107,7 @@ class Index extends React.Component {
                 <li
                   className="postItem"
                   key={post.ID}
-                  onClick={e => this.onGoPost(e, post)}
+                  onClick={this.onGoPost(post)}
                 >
                   <span
                     className="postTitle"
