@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Container(props) {
+const Container = props => {
   return (
     <div>
       {props.remove === true ? (
@@ -35,3 +35,5 @@ export default function Container(props) {
     </div>
   )
 }
+
+export default Container
